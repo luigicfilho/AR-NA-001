@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Seguro - Portal do Cliente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, #0d47a1 0%, #1565c0 100%);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffb300 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0d47a1;
+            font-size: 20px;
+            box-shadow: 0 2px 8px rgba(255,215,0,0.4);
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .logo-text span {
+            color: #ffd700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+
+        .user-name {
+            font-size: 14px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #ffd700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0d47a1;
+        }
+
+        /* Navigation */
+        .nav {
+            background: #0a3d91;
+            padding: 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 5px;
+        }
+
+        .nav li a {
+            display: block;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .nav li a:hover,
+        .nav li a.active {
+            background: #1565c0;
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+            color: white;
+            padding: 18px 20px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Balance Section */
+        .balance-section {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .balance-card {
+            flex: 1;
+            background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+            border-radius: 10px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(21, 101, 192, 0.4);
+        }
+
+        .balance-card.savings {
+            background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
+        }
+
+        .balance-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .balance-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .balance-account {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .action-btn:hover {
+            background: #e3f2fd;
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            background: #1565c0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .action-text {
+            font-size: 12px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Messages Section - VULNERABLE TO XSS */
+        .messages-section {
+            margin-top: 25px;
+        }
+
+        .message-form {
+            margin-bottom: 20px;
+        }
+
+        .message-form textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .message-form textarea:focus {
+            outline: none;
+            border-color: #1565c0;
+        }
+
+        .message-form button {
+            margin-top: 10px;
+            padding: 12px 30px;
+            background: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .message-form button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(21, 101, 192, 0.4);
+        }
+
+        /* Message Display - VULNERABLE! */
+        .messages-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid #1565c0;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .message-author {
+            font-weight: 600;
+            color: #1565c0;
+        }
+
+        .message-content {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Security Alert */
+        .security-alert {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border: 1px solid #ffb74d;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .security-alert h3 {
+            color: #e65100;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .security-alert p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Tips Card */
+        .tips-card {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .tips-card h3 {
+            color: #2e7d32;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .tips-card ul {
+            list-style: none;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .tips-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #c8e6c9;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .tips-card li:last-child {
+            border-bottom: none;
+        }
+
+        .tips-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        /* XSS Demo Panel */
+        .xss-demo {
+            background: #fce4ec;
+            border: 2px dashed #e91e63;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .xss-demo h4 {
+            color: #c2185b;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .xss-demo code {
+            display: block;
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            overflow-x: auto;
+            margin-bottom: 8px;
+            color: #c2185b;
+        }
+
+        .xss-demo button {
+            padding: 8px 15px;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .xss-demo button:hover {
+            background: #c2185b;
+        }
+
+        /* Cookie display */
+        .cookie-box {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0a3d91;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: #ffd700;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+
+            .balance-section {
+                flex-direction: column;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* XSS Success Animation */
+        @keyframes xss-detected {
+            0% { background-color: #fff; }
+            50% { background-color: #ffcdd2; }
+            100% { background-color: #fff; }
+        }
+
+        .xss-triggered {
+            animation: xss-detected 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">BS</div>
+                <div class="logo-text">Banco <span>Seguro</span></div>
+            </div>
+            <div class="user-info">
+                <span class="user-name">Olá, João Silva</span>
+                <div class="user-avatar">JS</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <ul>
+                <li><a href="#" class="active">Início</a></li>
+                <li><a href="#">Contas</a></li>
+                <li><a href="#">Transferências</a></li>
+                <li><a href="#">Pagamentos</a></li>
+                <li><a href="#">Cartões</a></li>
+                <li><a href="#">Suporte</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="content">
+            <!-- Balance Cards -->
+            <div class="balance-section">
+                <div class="balance-card">
+                    <div class="balance-label">Saldo Disponível</div>
+                    <div class="balance-value">R$ 15.432,87</div>
+                    <div class="balance-account">Conta Corrente • Ag: 1234 • Conta: 56789-0</div>
+                </div>
+                <div class="balance-card savings">
+                    <div class="balance-label">Poupança</div>
+                    <div class="balance-value">R$ 8.750,00</div>
+                    <div class="balance-account">Conta Poupança • Ag: 1234 • Conta: 12345-6</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="action-btn">
+                    <div class="action-icon">↗</div>
+                    <span class="action-text">Transferir</span>
+                </button>
+                <button class="action-btn">
+                    <div class="action-icon">📄</div>
+                    <span class="action-text">Pagar</span>
+                </button>
+                <button class="action-btn">
+                    <div class="action-icon">📊</div>
+                    <span class="action-text">Extrato</span>
+                </button>
+                <button class="action-btn">
+                    <div class="action-icon">⚙</div>
+                    <span class="action-text">Config</span>
+                </button>
+            </div>
+
+            <!-- Messages Section - VULNERABLE TO XSS -->
+            <div class="card messages-section">
+                <div class="card-header">💬 Central de Mensagens</div>
+                <div class="card-body">
+                    <div class="message-form">
+                        <textarea id="messageInput" placeholder="Digite sua mensagem, dúvida ou comentário..."></textarea>
+                        <button onclick="postMessage()">Enviar Mensagem</button>
+                        <button onclick="clearMessages()" style="background: #757575; margin-left: 10px;">Limpar</button>
+                    </div>
+
+                    <!-- Messages will appear here - VULNERABLE! -->
+                    <div id="messagesList" class="messages-list">
+                        <div class="message-item">
+                            <div class="message-header">
+                                <span class="message-author">Atendimento</span>
+                                <span>Hoje, 10:30</span>
+                            </div>
+                            <div class="message-content">Bem-vindo ao Banco Seguro! Sua conta está ativa. Como podemos ajudar?</div>
+                        </div>
+                    </div>
+
+                    <!-- XSS Demo Panel -->
+                    <div class="xss-demo">
+                        <h4>⚠️ ZONA DE TESTE XSS (Educacional)</h4>
+                        <p style="font-size: 12px; color: #666; margin-bottom: 10px;">
+                            Cole um dos payloads abaixo e clique em "Enviar Mensagem":
+                        </p>
+                        <code id="payload1">&lt;img src=x onerror=alert(1)&gt;</code>
+                        <code id="payload2">&lt;img src=x onerror=alert(document.cookie)&gt;</code>
+                        <code id="payload3">&lt;details closed ontoggle='alert("Cookies: " + document.cookie)'&gt;&lt;summary&gt;Clique para ver seus dados&lt;/summary&gt;&lt;/details&gt;</code>
+                        <button onclick="usePayload('payload1')">Usar Payload 1</button>
+                        <button onclick="usePayload('payload2')">Usar Payload 2</button>
+                        <button onclick="usePayload('payload3')">Usar Payload 3</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Security Alert -->
+            <div class="security-alert">
+                <h3>🔒 Aviso de Segurança</h3>
+                <p>Nunca compartilhe seus dados de acesso. O Banco Seguro nunca solicita senhas por email ou telefone.</p>
+            </div>
+
+            <!-- Tips -->
+            <div class="card">
+                <div class="card-header">📱 Dicas de Segurança</div>
+                <div class="tips-card" style="margin: 15px;">
+                    <h3>Proteja sua conta:</h3>
+                    <ul>
+                        <li>Use senhas fortes</li>
+                        <li>Ative a verificação em 2 etapas</li>
+                        <li>Não clique em links suspeitos</li>
+                        <li>Verifique sempre o URL do site</li>
+                        <li>Mantenha seu antivirus atualizado</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Last Access -->
+            <div class="card">
+                <div class="card-header">🕐 Últimos Acessos</div>
+                <div class="card-body" style="font-size: 13px; color: #666;">
+                    <p><strong>Hoje</strong><br>14:32 - Chrome, Windows</p>
+                    <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
+                    <p><strong>Ontem</strong><br>09:15 - Chrome, Windows</p>
+                    <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
+                    <p><strong>15/03/2024</strong><br>18:45 - Safari, iPhone</p>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 Banco Seguro S.A. - CNPJ: 00.000.000/0001-00 | <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a></p>
+        <p style="margin-top: 8px; opacity: 0.7;">Esta é uma página educacional para demonstração de vulnerabilidades XSS</p>
+    </footer>
+
+    <script>
+        // Criar cookies de sessão simulados para demonstração
+        document.cookie = "session_id=BS_abc123xyz789_session_" + Date.now() + "; path=/";
+        document.cookie = "user_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTIzNDU2NyJ9.demo_sig; path=/";
+        document.cookie = "user_logged=true; path=/";
+        document.cookie = "bank_session=98765; path=/";
+
+        // Message counter
+        let messageCount = 1;
+
+        // Post message function - VULNERABLE TO XSS!
+        function postMessage() {
+            const input = document.getElementById('messageInput');
+            const messageList = document.getElementById('messagesList');
+            const content = input.value.trim();
+            
+            if (!content) {
+                alert('Por favor, digite uma mensagem.');
+                return;
+            }
+
+            const now = new Date();
+            const time = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            
+            // Create message element
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-item';
+            messageDiv.id = 'message-' + messageCount;
+            
+            // VULNERABLE! Using innerHTML allows XSS
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <span class="message-author">Você</span>
+                    <span>Hoje, ${time}</span>
+                </div>
+                <div class="message-content">${content}</div>
+            `;
+            
+            messageList.insertBefore(messageDiv, messageList.firstChild);
+            
+            // Add animation to show XSS was potentially triggered
+            messageDiv.classList.add('xss-triggered');
+            
+            // Clear input
+            input.value = '';
+            messageCount++;
+        }
+
+        // Clear all messages
+        function clearMessages() {
+            const messageList = document.getElementById('messagesList');
+            messageList.innerHTML = `
+                <div class="message-item">
+                    <div class="message-header">
+                        <span class="message-author">Atendimento</span>
+                        <span>Hoje, 10:30</span>
+                    </div>
+                    <div class="message-content">Bem-vindo ao Banco Seguro! Sua conta está ativa. Como podemos ajudar?</div>
+                </div>
+            `;
+            messageCount = 1;
+        }
+
+        // Use predefined payload
+        function usePayload(payloadId) {
+            const payloadElement = document.getElementById(payloadId);
+            const input = document.getElementById('messageInput');
+            // Decode HTML entities for the payload
+            const textarea = document.createElement('textarea');
+            textarea.innerHTML = payloadElement.textContent;
+            input.value = textarea.value;
+            input.focus();
+        }
+
+        console.log('%c⚠️ AVISO EDUCACIONAL', 'color: red; font-size: 20px; font-weight: bold;');
+        console.log('%cEsta página é intencionalmente vulnerável a XSS para fins educacionais.', 'color: orange; font-size: 14px;');
+        console.log('%cNunca use estas técnicas em sites reais sem autorização!', 'color: red; font-size: 14px;');
+        console.log('%cCookies disponíveis para teste:', 'color: blue; font-size: 12px;', document.cookie);
+    </script>
+</body>
+</html>
