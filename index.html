@@ -469,6 +469,7 @@
             animation: xss-detected 0.5s ease;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
@@ -523,22 +524,22 @@
                     <span class="action-text">Transferir</span>
                 </button>
                 <button class="action-btn">
-                    <div class="action-icon">📄</div>
+                    <div class="action-icon"><i class="fas fa-file"></i></div>
                     <span class="action-text">Pagar</span>
                 </button>
                 <button class="action-btn">
-                    <div class="action-icon">📊</div>
+                    <div class="action-icon"><i class="fas fa-chart-bar"></i></div>
                     <span class="action-text">Extrato</span>
                 </button>
                 <button class="action-btn">
-                    <div class="action-icon">⚙</div>
+                    <div class="action-icon"><i class="fas fa-gear"></i></div>
                     <span class="action-text">Config</span>
                 </button>
             </div>
 
             <!-- Messages Section - VULNERABLE TO XSS -->
             <div class="card messages-section">
-                <div class="card-header">💬 Central de Mensagens</div>
+                <div class="card-header"><i class="fas fa-comment"></i> Central de Mensagens</div>
                 <div class="card-body">
                     <div class="message-form">
                         <textarea id="messageInput" placeholder="Digite sua mensagem, dúvida ou comentário..."></textarea>
@@ -559,7 +560,7 @@
 
                     <!-- XSS Demo Panel -->
                     <div class="xss-demo">
-                        <h4>⚠️ ZONA DE TESTE XSS (Educacional)</h4>
+                        <h4><i class="fas fa-exclamation-triangle"></i> ZONA DE TESTE XSS (Educacional)</h4>
                         <p style="font-size: 12px; color: #666; margin-bottom: 10px;">
                             Cole um dos payloads abaixo e clique em "Enviar Mensagem":
                         </p>
@@ -578,13 +579,13 @@
         <aside class="sidebar">
             <!-- Security Alert -->
             <div class="security-alert">
-                <h3>🔒 Aviso de Segurança</h3>
+                <h3><i class="fas fa-lock"></i> Aviso de Segurança</h3>
                 <p>Nunca compartilhe seus dados de acesso. O Banco Seguro nunca solicita senhas por email ou telefone.</p>
             </div>
 
             <!-- Tips -->
             <div class="card">
-                <div class="card-header">📱 Dicas de Segurança</div>
+                <div class="card-header"><i class="fas fa-mobile"></i> Dicas de Segurança</div>
                 <div class="tips-card" style="margin: 15px;">
                     <h3>Proteja sua conta:</h3>
                     <ul>
@@ -599,7 +600,7 @@
 
             <!-- Last Access -->
             <div class="card">
-                <div class="card-header">🕐 Últimos Acessos</div>
+                <div class="card-header"><i class="fas fa-clock"></i> Últimos Acessos</div>
                 <div class="card-body" style="font-size: 13px; color: #666;">
                     <p><strong>Hoje</strong><br>14:32 - Chrome, Windows</p>
                     <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
